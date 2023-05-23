@@ -1,0 +1,52 @@
+
+<!-- Header-->
+<header class="banner bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder text-dark shadow bg-warning">Shop in style</h1>
+            <p class="lead fw-normal  mb-0 shadow bg-primary text-dark-90 ">With this shop hompeage template</p>
+        </div>
+    </div>
+</header>
+
+<!-- Section-->
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        <!-- setting slice kodukkamm xl aavumbbo etra row and col , medium aavumbbol etra col-->
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+
+            <!-- in filter after removing : 'sa' kodukka searchTerm -->
+
+            <div class="col mb-5" *ngFor="let product of allProducts | filter:searchTerm:'title' ">
+                <div class="card h-100 shadow">
+                    <!-- Product image-->
+                    <!-- property binding  one way binding ts to html-->
+                    <img class="card-img-top" [src]="product.image" alt="..." />
+                    <!-- Product details-->
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <!-- Product name-->
+                            <h5 class="fw-bolder">{{product.title}}</h5>
+                            <!-- Product price-->
+                            ${{product.price}}
+                        </div>
+                    </div>
+                    <!-- Product actions-->
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <!-- here when we click view product then it redirect  to view product page pooganam ,  for this set like this allproducts page il ninnu  routerLink="viewproducts/:id-->
+                        <div class="text-center">
+                            <a class="btn btn-outline-primary mt-auto" routerLink="viewproducts/{{product.id}}"><i class="fa-solid fa-eye me-2"></i>View Product</a>
+                        </div>
+                        <div class="mt-2">
+                            <a (click)="addtowishlist(product)" class="btn btn-danger fa-beat me-5 ms-2" ><i class="fa-solid fa-heart "></i></a>
+                            <a (click)="addtocart(product)" class="btn btn-primary fa-beat ms-4" ><i class="fa-solid fa-cart-plus "></i></a>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   </section>
+        

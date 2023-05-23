@@ -1,0 +1,263 @@
+
+
+   E-Commerce website
+
+   create new project -> ng new project name
+
+   Lazy Loading :
+       helps keep initial bundle sizes smaller, which in turn help 
+
+       -> ng g m products  --route products --module app.module
+
+       Create Components
+
+       1. allProducts - ng g c products/allProducts
+       2. viewProduct - ng g c products/viewProduct
+       3. wishlist  -  ng g c products/wishlist
+       4. cart - ng g c products/cart
+
+       Not included in the lazy Loading
+
+       5 header - ng g c header
+       6. footer - ng g c footer
+       7.PageNotFound - ng g c pageNotFound
+
+       setup path for Components
+
+       to set path first set <router-outlet> </router-outlet> in app.component.html
+
+       app.component :
+
+       header,footer,pagenotfound , routing ,module,html,ts,css,ts.spec (6 files)
+
+       products(module) :
+
+       allproducts ,wishlist,view,cart,  routing ,module,html,ts,css,ts.spec (6 files)
+
+       user request  for this file ->  4200/products -> go to products module -> products nde html file ->products works -> we require allproducts
+localhost:4200 koduthaalum page varum allproduct sinde
+
+    // to design header and footer startbootstrap.com ,https://startbootstrap.com/template/shop-homepage
+       
+
+           Note :
+----------------------------------------
+Founded in 2013, Start Bootstrap has been the most popular library of free,
+ open source Bootstrap themes on the web for over seven years. At the very start, the mission was simply to create and share free,
+  open source, and easy to download Bootstrap themes without sacrificing quality.
+
+
+
+
+
+
+
+
+       //in all products html file instead shop in style content we have to place a shopping cart banner image
+       //add styles to content shop in style such bakground , shadow
+       //setting  when we click wishlist in navabar it will redirect to wishlist page goto wishlist btn in header
+       //in allproducts page  il viewproduct click chayyumbbo particular product ne vie chayyan saadikkanam
+
+       //to design viewproducts page use start bootstrap templates , https://startbootstrap.com/template/shop-item - > particular product view chayyanulla page
+        //https://startbootstrap.com/template/shop-item -> view source code -> dist -> index.html 
+        //code paste in to view product page
+
+        //cart designing 2 cases empty cart ( set empty cart giff image in this case), cart with products 
+        //empty cart - to set emoji  ( go to emoji copy paste site) https://emojihub.org
+
+
+        Backend
+
+        to host we use mongodb atlas connecting
+
+        //setting data in mongodb
+
+        1.create a project(eg:E-Commerce)
+        2.bulid database - 3 option il select free ->create ->after build database page appears consist username & pasword , bottom IP address :0.0.0.0/0  (koduthall evertone can acess otherwise only specific one)-> finish and close
+        3.database interface il -> browse collection (data add chayyanam) -> add my own data -> create database (eg:cart) , collection name (eg:in samll letter, add 's' in last = products) ->create
+        4.insert document -> view(json formatilaan vendaad)->erase content present there->to get data go to FAKE STORE API
+        5.iN that products (20 products details)->that 20 products insert to database ->copy paste code -> data will insert
+        6.Network access -> set IP address as 0.0.0.0/0
+
+        //creating backend 
+
+        create folder separate for backend , E-cart  contains eg: (E-Commerce,E-Commerce backend)
+        1.step 1 : create package.json file , command for this - npm init -y(automatic aayit create chayyum)
+        2.index file
+        3.express use chaydaal kittuga - node modules : npm i express cors mongoose dotenv
+              cors - used to communicate b/w two different ports
+              mongoose - connect database(mongo db) with nodejs
+              dotenv - to set environmental value
+
+
+
+
+
+       backend logic and test finished
+
+      Now go to front-end 
+   .........................
+   1.backend created logic front-endil parannu kodukkanam in api service   
+   2.create services -> here 2 modules app,product but we creating service for products module , so mention it path while creating 
+     ng g s products/services/api , services enna folder inside ann api veendadd
+   3.to use http methods(get,put,post,patch,delete)      we require ' httpclentmodule '   
+    to make api calls HttpClientModule required in api services so inject it in constructor before injecting ( private http:HttpClient ) 
+      in api service.ts , we need to import it in products module.ts   , eg: imports:[HttpClientModule ] & IMPORT IT  ,(we use chayda httpclient module in product component ts file this is not know by angular appmodule.ts) so import productmodule in the
+      angular appmodule.ts  (allade appmodule ariyiilla product module ne kurich this component kurich)
+      after that inject it apiservice.ts constructor (dependency injection)
+
+   4.in api service make an api call for get all products     -> evide ninnan api call poovunnad  ,  getallproducts(){ return this.http.get(`${this.BASE_URL}/products/all-products`)}
+   5.this api call(getallproducts) is created for component all-products 
+      so, open it ts file and craete constructor , then inject apiservice  there
+   6.  /api ll define chayda funtion define/call (getallproducts) chayyanam, pinne page ope chayyunna timil thanne page open timil thanne allproducts page display chayyanam
+//for that function defined inside ngOnInit , impliements ngOnInit kodukka inside class , quick fix it
+ 7.this array of data fetch chaydu pagil display chayyanam src->app->products-all-products.ts il 
+  create a variable allProducts and assign result in to it & display in html page each data
+  using structural directive ngFor to get more cards.
+  8. allproducts html page view product routerlink set chayyunnu {{product.id}} , then click over ecah btn their id displayed top left in console
+
+  9.to view particular product , id passed in url use params enna method in activated routes
+  view-products ts create constructor viewactivatedRoute:ActivatedRoute , page open time datas come - ngOnit
+  params method use chaydu data edukka
+  productId: string=''//getting whole data using id
+  10. using id view particular data , so define logic in backend controller (same steps as that of getallproducts api call),
+  ie creating function for view product in backend in productcontroller , router create an api  call
+  11. in front end that logic defined in api service , create fun for viewproducts there,
+  then inject api services to component which required that services
+go to component ts(becz we can't give direct it in html file and interpolate it to html )
+
+12.view product pagil ninnum product ne (add to wishlist btn clickil) ADD chayayanam.
+
+go to backend , add to wishlistt - > storing data into backend
+*ies nammal wishlistileeku kodukkunnadinee add/store chayyan we nee a collection , (also we can delete product when we require)
+12. ->create new collection : for that create a schema in model
+wishlistSchema.js file in model , *same as that of product schema create wishlist schema(to store user entered data) in model folder.
+
+13.  define logic of wishlist  in productController.js (before that import wishlist collection here)
+          (destructuring concept) , also create wishlictcontroller.js in controllers folder
+
+14. pass request to router (wishlist nde)     
+15.test backend in postman , give contents in body part ,raw,json ennituu data create chayya  because here we use post  method     
+15.frontend - api services (api call for ADD TO WISHLIST)
+16.api service used in view product ts file
+17.then each product neeyum select cahaydu add to wishlist kodukkumbbo , adineyellam wishlist pagil(added items) aayittu dispaly chayyanam
+18.go to backend , wishlist controller , 
+19.//go to routes and set path for this function call , test in postman backend working(wishlistil add chayda productsine view chaayayn saadikkum)
+20.goto front end apio services api call for getwishlistitems
+21.wishlist component.ts filee (then html file data ne display chayyippichhu *ngFor(property binding,string interpolation)) , there wishlist content present and empty case 
+und , so dat illenggill *ngIf il *ngIf="allwishlistitem.length==0 (empty case), content ulla case : *ngIf="allwishlistitem.length!=0"
+
+22.added items remove from wishlist case ; go backend wishlistController.js (logic parannu kodukakaa),
+   routes.js. postman(backend test delete method) , id kodukkumbbo that id ulla  item get deleted and remaining will displayed
+
+21.frontend -> api service removewishlistitem , then go wishlist.ts file
+22.products sil aan allproducts ullad -> pipe create folder for pipe ng g p products/pipes/filter
+products enna module inside pipe is created,pipes enna folder , filter enna pipe create cahyyunnu ,
+then go to all products html page *ngFor il filter apply chayyuga , ies  filter:'sa':'title'
+
+
+               Behaviour subject application
+        ...............................................       
+ 
+23. *go to header html file adil input tagil craete an event [type chayyumbool event nadakanamm for that give keyup] (keyup)="search($event)" , craeted as a $event 2 way binding(passing event as parameter) -> (event binding)
+ in header ts define that function search(event:any){}
+
+
+*//we can't pass data in header to allproducts directly .(pass a sream of data from one component to another component)
+ //(topil kodukkunna data allproducts leeku kodukkanm)header il kodukkunna stream of data allProducts leeku kodukkanam . anganee 'stream of data' pass cahyyanulla technique is "behaviour subject" in angular , adu rxjs library inside ulla class aan.    
+//to use Behaviour subject first we have to import it in **api service**, then using behaviour subject assign it in to a variable 
+after that ennitaaan data pass chayyuga.
+
+                        syntax:
+
+import { BehaviorSubject } from 'rxjs';
+
+const subject = new BehaviorSubject(123);   ennitaaan data pass chayyuga.
+
+* define searchterm in api and assign an empty behaviour subject in to this ,
+
+searchTerm = new BehaviorSubject('') , this Behaviour subject helps to hold stream of data.
+
+*next is method used to hold next coming stream of data in behaviour subject.
+
+*header component ts file lil inject api service to get search term defined in api.
+*pass event.target.value(header il user search chyuunna values) in here as a parameter in paranthesis agathh. of behaviour subject nde next() enna methodilaan pass chayyanullad kodukka:
+this.api.searchTerm.next(event.target.value);
+
+*go to allproducts ts file define an empty variable search term of type string in class
+searchTerm:string=''
+
+then use searchterm(behaviour subject) in api console it.
+*go to all products html file where *ngFor il  filter:searchTerm:'title' ennu kodukka.
+
+
+24. cart - in backend create a model for cart
+* create schema for  cart in model , cartSchema.js
+ *create logic for cart in controller , cartController.js
+ *frontend src->app->api -> addtocart(product:any)
+ allproduct html btn addtocart() fun call chayyunnu , then go to allproducts ts file function define chayya
+*cart items ne frontend pagil get chayyanam so go to backend cartcontroller 
+  create getcart() fun (to define logic in controllers) 
+  then router.js , test in postman backend working or not 
+  , front end api service getcartitems() , edu componentilaano get chayyendde go to cart component ts  , getcarttotal() functionum call chayya edinde koode totalprice kittaan.
+
+  25. cart items count headeril cart items btnil varuthaan
+...............................................................
+here cart count displayed using behavior subject (stream of data) pass chayyaan saadikkum
+*frontend api service inside class create a variable cartitemcount
+create function cartcount()
+*to pass cart count to header , go to header ts
+*take cartitem count in api to header , this.api.caritemcount
+* create variable cartitem in hedaer ts file & assign value to this , and interpolate this to htmlpage
+logic : getcart() enna function undd adu vachu array nde length edukanam , ie assigned to this.
+*all product snde page ninnum addtocart click cartcount increse cahayynam forthat
+allproducts html btn addtocart() -> allproducts  ts 
+
+* view product pagile addtocart btn il action kodukka(addtocart() function view product tsil kodukka)
+first -> go view html addtocart btn il craete a event (click)="addtocart(product)" parameter also pass chyayanam, to pass data here we use variable product
+2nd - >paste addtocart funtcion here
+* wishlist page -> wishlist content btn clickil  cartleek add  aavanam
+1st- > html page btn clickil event (click)="addtoacart(wish)" , here wish is passed as (product)
+2nd -> wislist tsil define addtoacart function
+*//cartileek add chayyan koduthal pinne that product wishlistil ninnum remove aavanm so call removewishlistitem function  here .
+
+
+26. Cartil ninnum delete chayyaanam unwanted items/products
+
+* go backend  cartcontroller.js , delete chayyanulla function define chayya
+, router.js (path parannu kodukka) , go frontend api service removecartitem(id:any) id pass chayayanm,go to service needed component ts file
+cart component ts file define function to remove cart item, this functionee call chayyuga cart html trash btn click event aayittu kodukka.
+cart count set -> cartcount() function nee call chayya cart tsil removecartitem funtion definitionil
+//to decrement cart count while deleting item
+
+27. cartile contents anusarich price and garndtotal display chayyanam
+go to cart ts create a variable to store grandtotal, grandtotal fun define chayya
+getcart enna funtionil cartileek items add chayyum timilaan grand total is required so appo thane getcarttotal()
+enna functionee call chayyanam , * string interpolate totalprice enna variable ulla value.
+//(to see when items deleted) cartile items delete cahyyumbbo grandtotal decrement chayyan we call this function in removecartitem() fun definition and also cartcount() also call from api in this
+//get cart fun -> call cartcount(),(to see when items addedd)
+
+27.cart item quantity increment and decrement cahayyuga
+*increment function create backend -> cart controller.js,routes,postman test, front end :api service,
+cart component ts file il so appo thane getcarttotal() functionum call chayya edinde koode totalprice kittaan also cartcount(),  cart html page btn click event function call create (+) increment
+*decrement function create backend -> cart controller.js,routes,postman test, front end :api service,
+cart component ts file so appo thane getcarttotal() functionum call chayya edinde koode totalprice kittaan also cartcount() ,cart html page btn click event function call will create to (-) decrement
+
+28.checkout btn designed as modal
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+

@@ -1,0 +1,9 @@
+
+/* apply sticky to navbar
+to avoid content passing over the navbar = z-index:1 */
+
+.navbar{
+    position: sticky;
+    top :0;
+    z-index:1;
+}

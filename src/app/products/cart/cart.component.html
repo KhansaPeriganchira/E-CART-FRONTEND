@@ -1,0 +1,210 @@
+<!-- empty cart -->
+<!-- *ngIf="allcartitems.length==0 , aneel empty cart dispalyed -->
+<div class="" *ngIf="allcartitems.length==0">
+    <div class="row">
+        <div class="col">
+             <h1 class="text-center pt-3">Your Cart is Empty 😓</h1>
+            <img width="600px" height="400px" src="https://bakestudio.in/assets/images/cart/empty-cart.gif" alt="image">
+        </div>
+        <div class="col text-center m-5 p-5">
+            <!-- routerLink="" back to allproducts main page when cart is empty -->
+            <button class="btn btn-outline-primary " routerLink="">Back To Shopping 🛒</button>
+        </div>
+    </div>
+</div>
+
+<!-- cart with products -->
+
+<div class="container"  *ngIf="allcartitems.length!=0">
+    <div class="row mb-5">
+        <div class="col-6  mt-5 ">
+           <!-- table , table bootstrap styling-->
+
+           <table class="table border border-4">
+            <thead>
+                <tr class="border border-4">
+                    <!-- th*6 -->
+                    <th>No</th>
+                    <th>Name</th>
+                    <th>Image</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+
+                    <!-- th action mean product deleting -->
+
+                    <th>Action</th>
+                    
+                </tr>
+            </thead>
+             <tbody>
+
+                <!-- id oru unique aayadaan vendadengill let i=index ennu kodukka  -->
+                <!-- {{i+1}} ->  interpolate this automatic aayitt index increment aayikoolum-->
+
+                <tr *ngFor="let cart of allcartitems; let i=index">
+                    <td>{{i+1}}</td>
+                    <td>{{cart.title}}</td>
+                    <!-- property binding image -->
+                    <td><img width="100px" height="100px" [src]="cart.image" alt=""></td>
+
+                    <!-- readonly kodutha input box value maatree display chayyuu,userkk input fieldil edit chayyano/data enter chayyaano saadikkilla  -->
+                <td>
+                    <!-- d-flex is given to align the buttons in same line alignment -->
+
+                    <div class="d-flex">
+                        <button  (click)="decrementcount(cart.id)" class="btn">-</button>
+                        <input type="text" class="form-control" [value]="cart.quantity" readonly>
+                        <button (click)="incrementcount(cart.id)" class="btn">+</button>
+                    </div>
+                </td>
+
+                    <td>${{cart.price}}</td>
+                    <td>
+                        <!-- delete chayayn cartinde id aan kodukkenddadd -->
+
+                        <i (click)="removecartitem(cart.id)" class="fa-solid fa-trash text-danger icon"></i>
+                    </td>
+                </tr>
+             </tbody>
+           </table>
+
+        </div>
+
+
+        <div class="col-4 border border-2 ms-4 p-5 m-5">
+
+              <!-- summary : details about items purchased/shopped -->
+
+
+<!-- totalprice interpolated in price and grandtotal -->
+<div>
+           <div class="border rounded p-3">
+                   <h3 class="text-primary">Subtotal : ${{totalprice}}</h3>
+                   <hr>
+            </div>
+
+            <!-- d-grid  is used to display btn expanded format /flattned-->
+         <div class="d-grid mt-4">
+
+            <!-- to make btn acts as a modal use in btn tagil data-bs-toggle="modal" data-bs-target="#staticBackdrop" ,after button tag give modal code-->
+            
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" >Check Out</button>
+        
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+       
+        <div class="modal-header">
+          
+          <h1 class="modal-title text-center fs-5  text-success" id="staticBackdropLabel">Check Out Details</h1>
+          
+          <button (click)="modalclose()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <form *ngIf="!paymentstatus" [formGroup]="addressform" (ngSubmit)="submitform()">
+            <h5 class="text-center">Enter Your Details</h5>
+
+            <div class="form-floating mb-3">
+                <input name="username" formControlName="username" type="text" class="form-control" placeholder="User Name">
+                <label >User Name</label>
+                <div *ngIf="this.addressform.get('username')?.errors && this.addressform.get('username')?.touched" class="text-danger">Invalid Username</div>
+              </div>
+
+              <div class="form-floating mb-3">
+                <input name="housenumber" formControlName="housenumber" type="text" class="form-control" placeholder="House Number">
+                <label >House Number</label>
+                <div *ngIf="this.addressform.get('housenumber')?.errors && this.addressform.get('housenumber')?.touched" class="text-danger">Invalid House number</div>
+              </div>
+              <div class="form-floating mb-3">
+                <input name="street" formControlName="street" type="text" class="form-control" placeholder="Street Name">
+                <label >Street Name</label>
+                <div *ngIf="this.addressform.get('street')?.errors && this.addressform.get('street')?.touched" class="text-danger">Invalid Street name</div>
+              </div> 
+              <div class="form-floating mb-3">
+                <input name="pincode" formControlName="pincode" type="text" class="form-control" placeholder="PIN CODE">
+                <label >PIN CODE</label>
+                <div *ngIf="this.addressform.get('pincode')?.errors && this.addressform.get('pincode')?.touched" class="text-danger">Invalid Pincode</div>
+              </div>
+              <div class="form-floating mb-3">
+                <input name="state" formControlName="state" type="text" class="form-control" placeholder="State">
+                <label >State</label>
+                <div *ngIf="this.addressform.get('state')?.errors && this.addressform.get('state')?.touched" class="text-danger">Invalid State</div>
+              </div>
+              <!-- Proceed to Pay -->
+              <div class="d-grid">
+                <button class="btn btn-primary my-3" type="submit">Proceed to Pay</button>
+              </div>
+
+            </form>
+
+                 <!-- *ngIf="paymentstatus  koduthall  this only dispalyed when form valid btn clickil chaydal maatram varugayullu-->
+              <!-- address details -->
+
+              <div *ngIf="paymentstatus" class=" justify-content-end m-2">
+               <h5>Delivery Address Details</h5>
+               <p>{{username}}</p>
+               <p>{{housenumber}}</p>
+               <p>{{street}}</p>
+               <p>{{pincode}}</p>
+               <p>{{state}}</p>
+            </div>
+
+            <!-- total and offers -->
+                <!-- d-flex justify-content-between , 2um side leek align chayuuum-->
+                <div class="d-flex justify-content-between">
+                  <h3 class="text-danger">Total Amount <i class="fa-sharp fa-solid fa-dollar-sign fa-beat-fade">{{totalprice}}</i></h3>
+               
+                  <!-- *ngIf="!offerstatus"  is given beczz when offer btn click discount images appear , at that time offer btn get hided-->
+                  <button *ngIf="!offerstatus" (click)="offers()" class="btn btn-success">Offers<i class="fa-sharp fa-solid fa-tag fa-beat-fade"></i></button>
+
+
+             </div>
+
+               
+
+                    <!-- offers and coupons -->
+                    <!-- image dispaly chayyunna div il offer status ennu kodukka , then offer btn clickil discount image show chayyum -->
+                    <div *ngIf="!discountstatus" class="d-flex justify-content-evenly">
+                       
+                      <!-- discount 10% *ngIf =totalprice>2000 maatram 50% coupon vaananl madee-->
+                    
+                      <img *ngIf="totalprice<1000" (click)="discounts(10)" width="50%" height="50%" src="https://www.luxorhotel.it/wp-content/uploads/2015/04/Luxor-Hotel-Discount-10-percent-off.jpg" alt="">
+                      
+                       <!-- discount 30% -->
+                     <img *ngIf="totalprice<2000 && totalprice>1000" (click)="discounts(30)" width="50%" height="50%" src="https://img.freepik.com/premium-photo/30-percent-off-promotion_2227-146.jpg" alt="">
+
+                      
+                      <!-- discount 50% -->
+                      <img *ngIf="totalprice>2000"  (click)="discounts(50)" width="50%" height="50%"  src="https://thumbs.dreamstime.com/b/red-fifty-percent-off-discount-d-illustration-39283785.jpg" alt="">
+
+                    </div>
+
+                    <!-- *ngIf="paymentstatus  koduthall that greeen btn in form disappered aavum this only dispalyed when form valid btn clickil-->
+
+                        <!-- make payment , btn is visible before btn click and payment status = false case(form vanishes/submit time) -->
+                      
+                        <div *ngIf="paymentstatus && !showPaypal" class="d-flex justify-content-center m-2">
+                          <button (click)="makepayment()" class="btn btn-success">Make Payment</button>
+                      </div>
+                      <!-- showPaypal -> true caseil(makepayment btn click chaydaal maatram) only paypal dispalyed -->
+                          <div *ngIf="showPaypal">
+
+                          <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+                        </div>
+              </div>
+       
+      </div>
+    </div>
+  </div>
+        
+        
+        </div>
+
+
+</div>
+   
+        </div>
+    </div>
+</div>

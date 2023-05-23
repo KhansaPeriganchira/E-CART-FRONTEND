@@ -1,7 +1,28 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  
+  { path: 'products', loadChildren: () => import('./products/products.module').then(m => m.ProductsModule) },
+
+  {
+    path:'' , redirectTo:'products',pathMatch:'full'
+  },//http://localhost:4200 this way koduthaalum automatically allproducts-work will displays http://localhost:4200/products
+
+//header,footer -> not required path
+
+//but pagenot found need path
+
+//page not found class name
+
+{ 
+  path:'**', component:PageNotFoundComponent
+}
+
+];
+
+//products enna module nde path loadChildren
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

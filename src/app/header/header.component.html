@@ -1,0 +1,40 @@
+
+
+<!-- Navigation-->
+<nav class="navbar navbar-expand-lg navbar-light bg-info p-3">
+    <div class="container px-4 px-lg-5">
+        <!-- that pagil thanne nilkkaan routerLink="/" -->
+
+        <a class="navbar-brand text-light" routerLink="/">
+            <i class="fa-sharp fa-solid fa-beat fa-cart-shopping me-2"></i>E-Commerce</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <input (keyup)="search($event)" type="text" placeholder="Search Your Products"  class="form-control">
+            </ul>
+           
+            <form class="d-flex">
+
+                    <!-- setting router link , btn click il go to products le wishlist page leek-->
+
+                <a routerLink="products/wishlist" class="btn btn-outline-light me-5" type="submit">
+                    <i class="bi-cart-fill me-1"></i>
+                    <!-- use fa-beat to glow heart icon  -->
+                    <i class="fa-solid fa-heart fa-beat me-2 text-danger"></i>
+                    Wishlist
+                    
+                </a>
+
+                <!-- cart -->
+                <a routerLink="products/cart" class="btn btn-outline-light" type="submit">
+                    <i class="bi-cart-fill me-1"></i>
+                    <i class="fa-solid fa-cart-plus fa-beat me-2 text-dark"></i>
+                    Cart
+
+                    <!-- this.cartitem=data// used for string interpolate in html -->
+                    <span class="badge bg-dark text-white ms-1 rounded-pill">{{cartitem}}</span>
+                </a>
+            </form>
+        </div>
+    </div>
+</nav>

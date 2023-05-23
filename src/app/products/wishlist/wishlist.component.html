@@ -1,0 +1,59 @@
+<!-- empty wishlist -->
+<!-- length zero case il dispaly cahaayarud(no content) -->
+<div class="" *ngIf="allwishlistitem.length==0">
+    <div class="row">
+          <!-- <h1 class="text-center pt-3">Your Wishlist is Empty 😓</h1> -->
+        <div class="col text-center">
+           
+
+            
+            <img  width="700px" height="400px" src="https://i.pinimg.com/originals/82/e6/4f/82e64ffa12370f75a4d4a05c3870a894.gif" alt="image">
+      
+       
+        </div>
+        <div class="text-center  p-5">
+            <!-- routerLink="" back to allproducts main page when cart is empty -->
+            <a  class="btn btn-outline-primary " routerLink="">Shop more 🛒</a>
+        </div>
+    </div>
+</div>
+
+<!-- wishlist with content -->
+
+<!-- Section-->
+<section class="py-5"  *ngIf="allwishlistitem.length!=0">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            <div class="col mb-5 " *ngFor="let wish of allwishlistitem">
+                <div class="card h-100">
+                    <!-- Product image-->
+                    <img class="card-img-top" width="200px" height="200px" [src]="wish.image" alt="..." />
+                    <!-- Product details-->
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <!-- Product name-->
+                            <h5 class="fw-bolder">{{wish.title}}</h5>
+                            <!-- Product price-->
+                            ${{wish.price}}
+                        </div>
+                    </div>
+                    <!-- Product actions-->
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <!-- here when we click view product then it redirect  to view product page pooganam ,  for this set like this allproducts page il ninnu  routerLink="viewproducts/:id-->
+                       
+                        <div class="mt-2">
+
+                            <!-- click ennea eventil fun ne call cahydu parameter pass chayya then only corresponding id varumbboll delete chayyaa -->
+
+                            <a (click)="removewishlistitem(wish.id)" class="btn btn-danger fa-beat me-5 ms-2" ><i class="fa-solid fa-trash "></i></a>
+                            <a (click)="addtocart(wish)"  class="btn btn-primary fa-beat ms-4" ><i class="fa-solid fa-cart-plus"></i></a>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   </section>
+    
